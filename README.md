@@ -1,2 +1,2 @@
 # LearningPython
-Learning Python, using Pycharm as code editor
+Learning Python, using Pycharm as code IDE

@@ -1,3 +1,5 @@
+from LearningPython import FileHandler,KeyGen
+
 class Login:
     system_users = {
         'admin': {
@@ -19,7 +21,10 @@ class Login:
             self.password = input('password: ')
             if self.validate_access():
                 if self.role == 'admin':
-                    pass
+                    # Preparing the administrator tools module
+                    tool1 = FileHandler.FileHandler()
+                    tool1.create_users_file(self.system_users, 'user', 'pass')
+                    tool
                 else:
                     print(f'Welcome {self.user}')
                 break

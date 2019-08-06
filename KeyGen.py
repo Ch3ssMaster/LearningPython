@@ -93,6 +93,13 @@ class KeyGen:
         print('A new password has been created: ' + ''.join(self.key))
         self.key.clear()
 
-
-test = KeyGen()
+    def admin_key_generator(self, ch_number, ch_included, num_keys):
+        for i in range(0, int(ch_number)):
+            self.key.append(ch_included[random.randint(0, (len(ch_included)-1))])
+            try:
+                pass
+            except:
+                pass
+        self.key.clear()
+#test = KeyGen()
 # print(test.symbols)

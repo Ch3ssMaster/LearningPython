@@ -5,7 +5,7 @@ class FileHandler:
     def create_users_file(self, users_list, *headers):
         head = [item for item in headers]
         try:
-            with open('system_users.csv','w') as csv_file:
+            with open('system_users.csv', 'w+') as csv_file:
                 writer = csv.DictWriter(csv_file, fieldnames=head)
                 writer.writeheader()
                 for roles, users in users_list.items():
@@ -14,10 +14,10 @@ class FileHandler:
         except IOError:
             print('An input/output error occurred')
 
-    def add_to_file(self):
+    def add_to_file(self, data, file):
         pass
 
-    def override_file(self):
+    def override_file(self, data, file):
         pass
 
     def read_file(self):

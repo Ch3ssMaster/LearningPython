@@ -1,5 +1,7 @@
 import random
 
+# from LearningPython import FileHandler
+
 
 class KeyGen:
     key = []
@@ -7,6 +9,8 @@ class KeyGen:
     numbers = []
     symbols = []
     upper = []
+    role = None
+    values = ('y', 'n')
 
     '''
     constructor that generates 4 lists, 
@@ -14,7 +18,8 @@ class KeyGen:
     from ASCII characters
     '''
 
-    def __init__(self):
+    def __init__(self, role):
+        self.role = role
         i = 0
         for number in range(33, 127):
             i += 1
@@ -56,12 +61,11 @@ class KeyGen:
         while not ch_number.isnumeric() or int(ch_number) not in range(8, 13):
             print('please enter a valid option:')
             ch_number = input('*' * 5 + 'select key\'s characters number: (between 8 and 12)')
-        values = ('y', 'n')
         option = ''
         characters = ('lowercase', 'uppercase', 'numbers', 'symbols')
         ch_included = []
         for ch_type in characters:
-            while option not in values:
+            while option not in self.values:
                 print('enter y (yes) or n (no)')
                 option = input('*' * 5 + f'Would you like include {ch_type}?').lower()
                 if option == 'y':
@@ -80,7 +84,14 @@ class KeyGen:
         if not ch_included:
             print('no characters have been selected, at least the lower case will be included in the password')
             ch_included.extend(self.lower)
-        self.key_generator(ch_number, ch_included)
+        if self.role == 'admin':
+            num_keys = input('How many passwords do you want to create? (100 maximum)')
+            while not num_keys.isnumeric() or int(num_keys) not in range(1, 101):
+                print('please enter a valid option:')
+                num_keys = input('How many passwords do you want to create? (100 maximum)')
+            self.admin_key_generator(ch_number, ch_included, int(num_keys))
+        else:
+            self.key_generator(ch_number, ch_included)
 
     '''
     create a password with user-defined parameters, and send it to standard output
@@ -88,18 +99,34 @@ class KeyGen:
 
     def key_generator(self, ch_number, ch_included):
         for i in range(0, int(ch_number)):
-            self.key.append(ch_included[random.randint(0, (len(ch_included)-1))])
+            self.key.append(ch_included[random.randint(0, (len(ch_included) - 1))])
 
         print('A new password has been created: ' + ''.join(self.key))
         self.key.clear()
 
     def admin_key_generator(self, ch_number, ch_included, num_keys):
-        for i in range(0, int(ch_number)):
-            self.key.append(ch_included[random.randint(0, (len(ch_included)-1))])
-            try:
-                pass
-            except:
-                pass
-        self.key.clear()
-#test = KeyGen()
+        file = input('type a name for the file')
+        file += '.txt'
+        option = ''
+        while option not in self.values:
+            print('If the file already exists, do you want to overwrite it?')
+            option = input('Enter y (yes) or n (no)').lower()
+        try:
+            # obj = FileHandler.FileHandler()
+            if option == 'y':
+                f = open(file, 'w+')
+            else:
+                f = open(file, 'a+')
+            for pass_num in range(0, num_keys):
+                for i in range(0, int(ch_number)):
+                    self.key.append(ch_included[random.randint(0, (len(ch_included) - 1))])
+                f.write(''.join(self.key)+'\n')
+                self.key.clear()
+            f.close()
+        except IOError:
+            print('There was a problem opening the file')
+        else:
+            print(f'passwords have been written into {file}')
+
+# test = KeyGen()
 # print(test.symbols)

@@ -24,7 +24,7 @@ class Login:
                     # Preparing the administrator tools module
                     tool1 = FileHandler.FileHandler()
                     tool1.create_users_file(self.system_users, 'user', 'pass')
-                    tool
+                    tool2 = KeyGen.KeyGen(self.role)
                 else:
                     print(f'Welcome {self.user}')
                 break
